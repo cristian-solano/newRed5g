@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text, Image, Platform, FlatList, TextInput, Button } from "react-native";
+import { View, StyleSheet, Text, Image, Platform, FlatList, TextInput, TouchableOpacity } from "react-native";
 import axios from 'axios'
 
 
@@ -66,13 +66,12 @@ export default function Prestamos (){
                         <Text style={styles.listTextSubTitle}>Informacion del salvavidas</Text>
                     </View>
                 </View>
-                {/* <View style={styles.inputContent}>
-                    <TextInput onChangeText={setFecha} value={fecha} style={styles.inputText} placeholder="Escribe fecha de pago" ></TextInput>
-                    <Button title="Buscar" onPress={handleBuscar} />
-                </View> */}
                 <View style={styles.inputContent}>
                     <TextInput onChangeText={setMonto} value={monto} style={styles.inputText} placeholder="Escribe el monto" ></TextInput>
-                    <Button title="Buscar" onPress={handleBuscar} />
+                    
+                <TouchableOpacity style={styles.button} onPress={handleBuscar}>
+                    <Text style={styles.buttonText}>Buscar</Text>
+                </TouchableOpacity>
                 </View>
                 <View style={styles.list}>
                     <View style={styles.listContentItem}>
@@ -189,6 +188,20 @@ const styles= StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#000'
+        color: '#000',
+    },
+    
+    button: {
+        width: '100%',
+        height: 30,
+        backgroundColor: '#FF2F73',
+        borderRadius: 24,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
     }
 })

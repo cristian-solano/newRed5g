@@ -1,32 +1,38 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity, Button } from "react-native";
-import { useFonts, RedHatDisplay_400Regular } from '@expo-google-fonts/red-hat-display';
+import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import * as Notifications from 'expo-notifications';
 
+  
 export default function Login(){
 
-
-    const [password, setPassword] = useState('');
-    const [selectedValue, setSelectedValue] = useState('');
+    const [numeroDocumento, setNumeroDocumento] = useState('');
+    const [tipoDocumento, setTipoDocumento] = useState('');
     const navigation = useNavigation();
-
 
 
     const handleLogin = async() => {
         try {
             // Enviar una solicitud POST al servidor para autenticar al usuario
             const response = await axios.post('http://192.168.0.13:8000/api/login', {
-                userType: selectedValue, // Tipo de documento seleccionado por el usuario
-                documentNumber: password // Número de documento ingresado por el usuario
+                userType: tipoDocumento, // Tipo de documento seleccionado por el usuario
+                documentNumber: numeroDocumento // Número de documento ingresado por el usuario
             });
     
             // Si la autenticación es exitosa, navegar a la pantalla Home
             navigation.navigate('Home');
         } catch (error) {
-            // Manejar errores de autenticación
+            //aquí iria la notificiación
             console.error('Error de autenticación:', error.response.data.error);
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: "Error de autenticación",
+                    body: error.response.data.error || "Ocurrió un error al intentar iniciar sesión.",
+                },
+                trigger: null,
+            });
         }
     };
 
@@ -42,9 +48,9 @@ export default function Login(){
 
             <View style={styles.form}>
                 <Picker
-                    selectedValue={selectedValue}
+                    selectedValue={tipoDocumento}
                     style={styles.picker}
-                    onValueChange={(itemValue) => setSelectedValue(itemValue)}>
+                    onValueChange={(itemValue) => setTipoDocumento(itemValue)}>
                     <Picker.Item label="Seleccione un tipo de documento" value="" />
                     <Picker.Item label="Cédula de ciudadanía" value="1" />
                     <Picker.Item label="Cédula de extranjería" value="2" />
@@ -54,19 +60,13 @@ export default function Login(){
                     style={styles.input}
                     placeholder="Número de documento"
                     placeholderTextColor="white"
-                    onChangeText={setPassword}
-                    value={password}
+                    onChangeText={setNumeroDocumento}
+                    value={numeroDocumento}
                     keyboardType="numeric"
                 />
-                {/* <CustomButton onPress={handleLogin} title="Entrar" /> */}
-                <Button
-                    style={styles.button}
-                    title="Entrar"
-                    onPress={() => {
-                        console.log("navigation");
-                        handleLogin()
-                    }}
-                />
+                <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                    <Text style={styles.buttonText}>Entrar</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );

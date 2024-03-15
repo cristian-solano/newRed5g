@@ -13,9 +13,9 @@ const documentos = [
 ];
 
 const personas = [
-    { id: 1, usuario: "Omar Gonzales", numero_documento: '1011', contraseña: '2000', tipo_documento: 1 },
-    { id: 2, usuario: "Omar Gonzales", numero_documento: '1012', contraseña: '2000', tipo_documento: 1 },
-    { id: 3, usuario: "Luis Delgado", numero_documento: '2012', contraseña: '2000', tipo_documento: 2 }
+    { id: 1, usuario: "Omar Gonzales", numero_documento: '1011', tipo_documento: 1 },
+    { id: 2, usuario: "Omar Gonzales", numero_documento: '1012', tipo_documento: 1 },
+    { id: 3, usuario: "Luis Delgado", numero_documento: '2012', tipo_documento: 2 }
 ];
 
 const prestamos = [
@@ -24,9 +24,9 @@ const prestamos = [
     { persona: 1, id: 3, prestamo: 300000, intereses: 3400, total: 303400, pago: '2024-03-29' }
 ];
 
-// Rutas
+// Ruta para verificar si el backend está funcionando de manera local
 app.get('/', (req, res) => {
-    res.send("API node");
+    res.send("Esta desplegado el Backend!");
 });
 
 // Obtener listado de documentos
@@ -89,9 +89,9 @@ app.post('/api/login', (req, res) => {
     // Buscar el usuario por el número de documento en la base de datos
     const user = personas.find(user => user.tipo_documento === parseInt(documentNumber));
 
-    // Verificar si el usuario existe y si la contraseña es correcta
+    // Verificar si el usuario existe
     if (!user) {
-        return res.status(401).json({ error: 'Credenciales incorrectas' });
+        return res.status(401).json({ error: 'El usuario no existe' });
     }
 
     // Si las credenciales son válidas, enviar una respuesta con éxito

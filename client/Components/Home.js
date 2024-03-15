@@ -18,10 +18,6 @@ export default function Home (){
         navigation.navigate('Prestamos')
     }
 
-    const [fontsLoaded] = useFonts({
-        RedHatDisplay_400Regular,
-    })
-
   return (
     
      <View style={styles.homeContainer}>
@@ -66,14 +62,10 @@ export default function Home (){
                 
                 <View style={styles.iconsData}>
                     <Image source={require('../Images/PRESTAMOS.png')}/>
-                    <Button
-                        style={styles.iconsText}
-                        title="Prestamos"
-                        onPress={() => {
-                            console.log("navigation");
-                            handlePrestamos()
-                        }}
-                    />
+                    
+                <TouchableOpacity style={styles.iconsText} onPress={handlePrestamos}>
+                    <Text style={styles.iconsText}>Prestamos</Text>
+                </TouchableOpacity>
                 </View>
                     
                 <View style={styles.iconsData}>

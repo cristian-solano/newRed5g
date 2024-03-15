@@ -28,9 +28,7 @@ export default function App() {
           name="Prestamos"
           component={Prestamos}
       />
-      </Stack.Navigator>
-      
-      {/* {loggedIn ? <Home /> : <Login onLogin={handleLogin} />} */}
+      </Stack.Navigator>      
     </NavigationContainer>
   );
 }
